@@ -1,0 +1,14 @@
+language: java
+script: mvn test
+jdk:
+- openjdk7
+branches:
+  only:
+  - devel
+after_success:
+- python travis-prepare-maven.py
+- mvn deploy --settings ~/.m2/mySettings.xml
+env:
+  global:
+  - secure: CNoQ1q1Nx7XVL9vcAfHCiKfCDZwIA3sZ1oxu05al3//uMQt3/3Jb7sTMDRg5L/LJozKLPug+1IHFxpER4dNJPZ1pvjY/Ft8tmrzQlHh7rLLP64fCRMeVoykp89gpnBMmIPAf3iYqS96CYdZB7FB3XKOq/5Xjzz//DRo/LWKLfYQ=
+  - secure: gz9RTdfodkL/xfdUV5qqonT4BdW+eFHgUWWjz0Zxtr5jdCAtrJapsF4s6qyYzu5MxpXJCcpkRCjNYyKCf2H+pATNQ9I/aeKKB7H9uM+8sGc0v6Ax7ZMO9aWxKEx7Ldrea1tSLjHgB1nkrQjFTp390pRhEUqYVnMKpYFoVPH0KiQ=
