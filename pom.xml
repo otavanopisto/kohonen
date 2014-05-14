@@ -29,4 +29,17 @@
     </repository>
   </distributionManagement>
   
+  <url>https://github.com/otavanopisto/kohonen</url>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/otavanopisto/kohonen/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Travis</system>
+    <url>https://travis-ci.org/otavanopisto/kohonen</url>
+  </ciManagement>
+  <organization>
+    <name>Otavan Opisto</name>
+    <url>http://www.otavanopisto.fi</url>
+  </organization>
 </project>
