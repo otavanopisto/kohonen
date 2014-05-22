@@ -17,7 +17,7 @@ import fi.otavanopisto.kohonen.Topology;
 
 /**
  * Default implementation of Kohonen Network. Introduces input/output methods
- * for network streaming.
+ * to save/load a network.
  * 
  * @author antti.viljakainen
  */
@@ -25,36 +25,31 @@ public class KohonenNetwork implements Network {
 
   public KohonenNetwork(double[] maxWeight, Topology topology) {
     this.topology = topology;
+
     initNeurons(topology.getNeuronCount(), maxWeight);
   }
 
-  public KohonenNetwork(InputStream in, Topology topology) {
+  public KohonenNetwork(InputStream in, Topology topology) throws IOException {
     this.topology = topology;
     neurons = new ArrayList<double[]>();
     
-    String[] tempTable;
-    double[] tempList;
-    int rows = 0;
+    InputStreamReader reader = new InputStreamReader(in);
     try {
-      InputStreamReader fr = new InputStreamReader(in);
-      BufferedReader input = new BufferedReader(fr);
+      BufferedReader input = new BufferedReader(reader);
       String line;
 
       while ((line = input.readLine()) != null) {
-        tempTable = line.split("\t");
-        int tableLength = tempTable.length;
-        tempList = new double[tableLength];
-        for (int i = 0; i < tableLength; i++) {
-          tempList[i] = Double.valueOf(tempTable[i]);
+        String[] temp = line.split("\t");
+        double[] neuronWeight = new double[temp.length];
+
+        for (int i = 0; i < temp.length; i++) {
+          neuronWeight[i] = Double.valueOf(temp[i]);
         }
-        neurons.add(tempList);
-        rows++;
+
+        neurons.add(neuronWeight);
       }
-      
-      fr.close();
-      System.out.println(rows + " rows was imported");
-    } catch (IOException e) {
-      System.out.println("File can not be read!. Error: " + e);
+    } finally {
+      reader.close();
     }
   }
   
@@ -157,16 +152,18 @@ public class KohonenNetwork implements Network {
     return topology;
   }
 
-  public void networkToStream(OutputStream out) {
+  public void networkToStream(OutputStream out) throws IOException {
     String weightList;
     double[] weight;
+  
+    OutputStreamWriter osw = new OutputStreamWriter(out);
     try {
-      OutputStreamWriter fw = new OutputStreamWriter(out);
-      PrintWriter pw = new PrintWriter(fw);
-      int networkSize = getNeuronCount();
-      for (int i = 0; i < networkSize; i++) {
+      PrintWriter pw = new PrintWriter(osw);
+
+      for (int i = 0; i < getNeuronCount(); i++) {
         weightList = "";
         weight = getNeuronWeight(i);
+
         for (int j = 0; j < weight.length; j++) {
           weightList += weight[j];
           if (j < weight.length - 1) {
@@ -175,9 +172,8 @@ public class KohonenNetwork implements Network {
         }
         pw.println(weightList);
       }
-      fw.close();
-    } catch (IOException e) {
-      System.out.println("File can not be read!. Error: " + e);
+    } finally {
+      osw.close();
     }
   }
 

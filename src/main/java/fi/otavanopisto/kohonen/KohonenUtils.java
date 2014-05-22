@@ -71,4 +71,23 @@ public class KohonenUtils {
       return Double.NaN;
   }
 
+  /**
+   * Calculates average value from vector of values
+   * 
+   * @param vals values
+   * @return average of the values, Double.NaN if no values were specified
+   */
+  public static double avg(int[] vals) {
+    double sum = 0;
+    
+    if (vals.length > 0) {
+      for (int i = 0; i < vals.length; i++)
+        sum += vals[i];
+      
+      return sum / vals.length;
+    }
+    else
+      return Double.NaN;
+  }
+
 }
