@@ -13,7 +13,6 @@ import java.util.Random;
 
 import fi.otavanopisto.kohonen.DistanceFunction;
 import fi.otavanopisto.kohonen.Network;
-import fi.otavanopisto.kohonen.Topology;
 
 /**
  * Default implementation of Kohonen Network. Introduces input/output methods
@@ -23,14 +22,11 @@ import fi.otavanopisto.kohonen.Topology;
  */
 public class KohonenNetwork implements Network {
 
-  public KohonenNetwork(double[] maxWeight, Topology topology) {
-    this.topology = topology;
-
-    initNeurons(topology.getNeuronCount(), maxWeight);
+  public KohonenNetwork(int neuronCount, double[] maxWeight) {
+    initNeurons(neuronCount, maxWeight);
   }
 
-  public KohonenNetwork(InputStream in, Topology topology) throws IOException {
-    this.topology = topology;
+  public KohonenNetwork(InputStream in) throws IOException {
     neurons = new ArrayList<double[]>();
     
     InputStreamReader reader = new InputStreamReader(in);
@@ -148,10 +144,6 @@ public class KohonenNetwork implements Network {
     return list;
   }
   
-  public Topology getTopology() {
-    return topology;
-  }
-
   public void networkToStream(OutputStream out) throws IOException {
     String weightList;
     double[] weight;
@@ -182,6 +174,5 @@ public class KohonenNetwork implements Network {
   }
   
   private List<double[]> neurons;
-  private final Topology topology;
   private DistanceFunction distanceFunction = new EuclideanDistanceFunction();
 }

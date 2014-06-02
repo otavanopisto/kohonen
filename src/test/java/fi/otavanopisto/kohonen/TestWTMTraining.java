@@ -19,12 +19,12 @@ public class TestWTMTraining extends TestCase {
   public void testWTM() throws Exception {
     double[] maxWeight = new double[] { 1d, 1d };
     Topology topology = new MatrixTopology(1, 2);
-    Network network = new KohonenNetwork(maxWeight, topology);
+    Network network = new KohonenNetwork(topology.getNeuronCount(), maxWeight);
     
     int maxEpochs = 50000;
     TrainingModifier trainingModifier = new LinearTrainingModifier(0.8, maxEpochs);
     NeighborhoodModifier neighborhoodModifier = new GaussNeighborhoodModifier(0.1);
-    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(trainingModifier, neighborhoodModifier, maxEpochs);
+    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(topology, trainingModifier, neighborhoodModifier, maxEpochs);
     
     double[] in1 = new double[] { 0d, 0d };
     double[] in2 = new double[] { 1d, 1d };
@@ -52,12 +52,12 @@ public class TestWTMTraining extends TestCase {
   public void testWTMQuad() throws Exception {
     double[] maxWeight = new double[] { 1d, 1d };
     Topology topology = new MatrixTopology(2, 2);
-    Network network = new KohonenNetwork(maxWeight, topology);
+    Network network = new KohonenNetwork(topology.getNeuronCount(), maxWeight);
     
     int maxEpochs = 50000;
     TrainingModifier trainingModifier = new LinearTrainingModifier(0.8, maxEpochs);
     NeighborhoodModifier neighborhoodModifier = new GaussNeighborhoodModifier(0.2);
-    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(trainingModifier, neighborhoodModifier, maxEpochs);
+    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(topology, trainingModifier, neighborhoodModifier, maxEpochs);
     
     List<double[]> data = new ArrayList<double[]>();
     data.add(new double[] { 0d, 0d });
@@ -92,12 +92,12 @@ public class TestWTMTraining extends TestCase {
   public void testWTMQuadCumulative() throws Exception {
     double[] maxWeight = new double[] { 1d, 1d };
     Topology topology = new MatrixTopology(2, 2);
-    Network network = new KohonenNetwork(maxWeight, topology);
+    Network network = new KohonenNetwork(topology.getNeuronCount(), maxWeight);
     
     int maxEpochs = 20;
     TrainingModifier trainingModifier = new LinearTrainingModifier(0.2, maxEpochs);
     NeighborhoodModifier neighborhoodModifier = new GaussNeighborhoodModifier(0.2);
-    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(trainingModifier, neighborhoodModifier, maxEpochs);
+    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(topology, trainingModifier, neighborhoodModifier, maxEpochs);
     
     List<double[]> data = new ArrayList<double[]>();
     data.add(new double[] { 0d, 0d });

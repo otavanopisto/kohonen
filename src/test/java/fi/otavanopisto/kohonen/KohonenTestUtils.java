@@ -5,7 +5,7 @@ import java.util.List;
 public class KohonenTestUtils {
 
   public static double getMapDistance(Network network, List<double[]> data) {
-    return KohonenUtils.getMapDistance(network, data);
+    return KohonenUtils.mapDistance(network, data);
   }
   
   public static boolean checkVectorsChanged(double[] v1, double[] v2) {

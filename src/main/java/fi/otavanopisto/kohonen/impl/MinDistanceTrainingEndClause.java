@@ -36,7 +36,7 @@ public class MinDistanceTrainingEndClause implements TrainingEndClause {
   public boolean continueTraining(Network network, int epoch,
       List<double[]> data) {
     double previousEpochDistance = distance;
-    distances[round] = KohonenUtils.getMapDistance(network, data);
+    distances[round] = KohonenUtils.mapDistance(network, data);
     
     round++;
     

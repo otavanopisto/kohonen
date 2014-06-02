@@ -18,7 +18,7 @@ public class TestTopology extends TestCase {
     assertEquals(100, t.getNeuronCount());
     
     double[] max = new double[] { 1d, 1d };
-    Network network = new KohonenNetwork(max , t);
+    Network network = new KohonenNetwork(t.getNeuronCount(), max);
     
     Map<Integer, Integer> n = t.getNeighborhood(network, 0);
     
@@ -42,7 +42,7 @@ public class TestTopology extends TestCase {
     assertEquals(28, t.getNeuronCount());
     
     double[] max = new double[] { 1d, 1d };
-    Network network = new KohonenNetwork(max , t);
+    Network network = new KohonenNetwork(t.getNeuronCount(), max);
     
     Map<Integer, Integer> n = t.getNeighborhood(network, 0);
     

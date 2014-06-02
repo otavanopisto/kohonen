@@ -2,8 +2,6 @@ package fi.otavanopisto.kohonen;
 
 import java.util.List;
 
-import fi.otavanopisto.kohonen.impl.EuclideanDistanceFunction;
-
 /**
  * Utility class for Kohonen SOM.
  * 
@@ -18,16 +16,14 @@ public class KohonenUtils {
    * @param data Data
    * @return Sum of neuron distances to data vectors.
    */
-  public static double getMapDistance(Network network, List<double[]> data) {
-    EuclideanDistanceFunction euc = new EuclideanDistanceFunction();
-    
+  public static double mapDistance(Network network, List<double[]> data) {
     double dist = 0;
     
     for (int i = 0; i < data.size(); i++) {
       int bmu = network.findBMU(data.get(i));
       double[] bmuWeight = network.getNeuronWeight(bmu);
       
-      dist += euc.getDistance(bmuWeight, data.get(i));
+      dist += euclideanDistance(bmuWeight, data.get(i));
     }
     
     return dist;
@@ -90,4 +86,39 @@ public class KohonenUtils {
       return Double.NaN;
   }
 
+  /**
+   * Returns Euclidean distance between the two vectors
+   * 
+   * @param vector1
+   * @param vector2
+   * @return
+   */
+  public static double euclideanDistance(double[] vector1, double[] vector2) {
+    double sum = 0;
+
+    for (int i = 0; i < vector1.length; i++) {
+      sum += (vector1[i] - vector2[i]) * (vector1[i] - vector2[i]);
+    }
+    
+    return Math.sqrt(sum);
+  }
+
+  /**
+   * Returns Euclidean distance between the two vectors ignoring null elements of vector1.
+   * 
+   * @param vector1
+   * @param vector2 
+   * @return
+   */
+  public static double euclideanDistance(Double[] vector1, double[] vector2) {
+    double sum = 0;
+
+    for (int i = 0; i < vector1.length; i++) {
+      if (vector1[i] != null)
+        sum += (vector1[i] - vector2[i]) * (vector1[i] - vector2[i]);
+    }
+    
+    return Math.sqrt(sum);
+  }
+  
 }

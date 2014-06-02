@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import fi.otavanopisto.kohonen.impl.EuclideanDistanceFunction;
 import fi.otavanopisto.kohonen.impl.KohonenNetwork;
 import fi.otavanopisto.kohonen.impl.LinearTrainingModifier;
-import fi.otavanopisto.kohonen.impl.MatrixTopology;
 import fi.otavanopisto.kohonen.impl.WTATrainingAlgorithm;
 
 public class TestWTATraining extends TestCase {
@@ -95,14 +93,12 @@ public class TestWTATraining extends TestCase {
    */
   public void testWTATopology() throws Exception {
     double[] maxWeight = new double[] { 1d, 1d };
-    Topology topology = new MatrixTopology(2, 2);
-    Network network = new KohonenNetwork(maxWeight, topology);
+    Network network = new KohonenNetwork(4, maxWeight);
     
     int maxEpochs = 1;
     TrainingModifier trainingModifier = new LinearTrainingModifier(0.8, maxEpochs);
     
     WTATrainingAlgorithm algorithm = new WTATrainingAlgorithm(trainingModifier, maxEpochs);
-    EuclideanDistanceFunction edf = new EuclideanDistanceFunction();
     
     double[] in1 = new double[] { 0d, 0d };
     
@@ -111,7 +107,7 @@ public class TestWTATraining extends TestCase {
 
     List<double[]> neuronWeights = new ArrayList<double[]>();
     
-    for (int i = 0; i < topology.getNeuronCount(); i++) {
+    for (int i = 0; i < network.getNeuronCount(); i++) {
       neuronWeights.add(network.getNeuronWeight(i).clone());
     }
     
@@ -119,12 +115,12 @@ public class TestWTATraining extends TestCase {
 
     algorithm.train(network, data);
 
-    for (int i = 0; i < topology.getNeuronCount(); i++) {
+    for (int i = 0; i < network.getNeuronCount(); i++) {
       double[] neuronWeight = network.getNeuronWeight(i);
       double[] oldWeight = neuronWeights.get(i);
       
       if (i == ind1) {
-        assertTrue(edf.getDistance(neuronWeight, oldWeight) != 0);
+        assertTrue(KohonenUtils.euclideanDistance(neuronWeight, oldWeight) != 0);
       } else {
         assertVectorSame(neuronWeight, oldWeight);
       }
@@ -139,8 +135,7 @@ public class TestWTATraining extends TestCase {
   
   public void testWTACumulative() throws Exception {
     double[] maxWeight = new double[] { 1d, 1d };
-    Topology topology = new MatrixTopology(2, 2);
-    Network network = new KohonenNetwork(maxWeight, topology);
+    Network network = new KohonenNetwork(4, maxWeight);
     
     int maxEpochs = 10;
     TrainingModifier trainingModifier = new LinearTrainingModifier(0.2, maxEpochs);

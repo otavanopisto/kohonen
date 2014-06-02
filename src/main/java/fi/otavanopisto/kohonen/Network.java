@@ -10,7 +10,7 @@ public interface Network {
   /**
    * Returns neuron count for this network.
    * 
-   * @return count of neurons in the network
+   * @return number of neurons in the network
    */
   int getNeuronCount();
 
@@ -52,16 +52,9 @@ public interface Network {
   int findBMU(Double[] in);
   
   /**
-   * Returns Topology used by the Network.
-   * 
-   * @return topology
-   */
-  Topology getTopology();
-
-  /**
    * Return count of inputs to this network
    * 
-   * @return count of inputs
+   * @return number of inputs
    */
   int getInputCount();
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import fi.otavanopisto.kohonen.NeighborhoodModifier;
 import fi.otavanopisto.kohonen.Network;
+import fi.otavanopisto.kohonen.Topology;
 import fi.otavanopisto.kohonen.TrainingAlgorithm;
 import fi.otavanopisto.kohonen.TrainingEndClause;
 import fi.otavanopisto.kohonen.TrainingModifier;
@@ -24,12 +25,14 @@ public class WTMTrainingAlgorithm implements TrainingAlgorithm {
   private int epoch = -1;
   private final NeighborhoodModifier neighborhoodModifier;
   private final TrainingEndClause endClause;
+  private Topology topology;
 
-  public WTMTrainingAlgorithm(TrainingModifier trainingModifier, NeighborhoodModifier neighborhoodModifier, int maxEpochs) {
-    this(trainingModifier, neighborhoodModifier, null, maxEpochs);
+  public WTMTrainingAlgorithm(Topology topology, TrainingModifier trainingModifier, NeighborhoodModifier neighborhoodModifier, int maxEpochs) {
+    this(topology, trainingModifier, neighborhoodModifier, null, maxEpochs);
   }
 
-  public WTMTrainingAlgorithm(TrainingModifier trainingModifier, NeighborhoodModifier neighborhoodModifier, TrainingEndClause endClause, int maxEpochs) {
+  public WTMTrainingAlgorithm(Topology topology, TrainingModifier trainingModifier, NeighborhoodModifier neighborhoodModifier, TrainingEndClause endClause, int maxEpochs) {
+    this.topology = topology;
     this.trainingModifier = trainingModifier;
     this.neighborhoodModifier = neighborhoodModifier;
     this.endClause = endClause;
@@ -82,8 +85,8 @@ public class WTMTrainingAlgorithm implements TrainingAlgorithm {
     network.setNeuronWeight(neuronIndex, neuron);
     
     // Update Neighbors
-    if (network.getTopology() != null) {
-      Map<Integer, Integer> neighborhood = network.getTopology().getNeighborhood(network, neuronIndex);
+    if (topology != null) {
+      Map<Integer, Integer> neighborhood = topology.getNeighborhood(network, neuronIndex);
       
       Set<Integer> neighbors = neighborhood.keySet();
       

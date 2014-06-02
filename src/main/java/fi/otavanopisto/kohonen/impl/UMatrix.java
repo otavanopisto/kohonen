@@ -2,19 +2,18 @@ package fi.otavanopisto.kohonen.impl;
 
 import java.util.Map;
 
+import fi.otavanopisto.kohonen.KohonenUtils;
 import fi.otavanopisto.kohonen.Network;
 import fi.otavanopisto.kohonen.Topology;
 
 public class UMatrix {
 
-  public static UMatrix createUMatrix(Network network) {
+  public static UMatrix createUMatrix(Network network, Topology topology) {
     UMatrix umatrix = new UMatrix();
     umatrix.neurons = new double[network.getNeuronCount()];
     
-    EuclideanDistanceFunction edf = new EuclideanDistanceFunction();
-    
     for (int i = 0; i < network.getNeuronCount(); i++) {
-      Map<Integer, Integer> neighborhood = network.getTopology().getNeighborhood(network, i);
+      Map<Integer, Integer> neighborhood = topology.getNeighborhood(network, i);
       double[] neuronWeight = network.getNeuronWeight(i);
       double neuronTotalDistance = 0;
       int neighborCount = 0;
@@ -25,7 +24,7 @@ public class UMatrix {
         if (neighborDist == 1) {
           double[] neighborWeight = network.getNeuronWeight(neighbor);
           
-          neuronTotalDistance += edf.getDistance(neuronWeight, neighborWeight);
+          neuronTotalDistance += KohonenUtils.euclideanDistance(neuronWeight, neighborWeight);
           neighborCount++;
         }
       }
