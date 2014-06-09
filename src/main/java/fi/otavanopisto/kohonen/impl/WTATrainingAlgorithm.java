@@ -1,6 +1,6 @@
 package fi.otavanopisto.kohonen.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import fi.otavanopisto.kohonen.Network;
 import fi.otavanopisto.kohonen.TrainingAlgorithm;
@@ -35,14 +35,14 @@ public class WTATrainingAlgorithm implements TrainingAlgorithm {
     return epoch;
   }
  
-  public void train(Network network, List<double[]> data) {
+  public void train(Network network, Collection<double[]> data) {
     if (endClause != null)
       trainWithEndClause(network, data);
     else
       trainNormal(network, data);
   }
 
-  private void trainNormal(Network network, List<double[]> data) {
+  private void trainNormal(Network network, Collection<double[]> data) {
     for (epoch = 0; epoch < maxEpochs; epoch++) {
       for (double[] weight : data) {
         int closestNeuron = network.findBMU(weight);
@@ -52,7 +52,7 @@ public class WTATrainingAlgorithm implements TrainingAlgorithm {
     }
   }
 
-  private void trainWithEndClause(Network network, List<double[]> data) {
+  private void trainWithEndClause(Network network, Collection<double[]> data) {
     for (epoch = 0; epoch < maxEpochs; epoch++) {
       for (double[] weight : data) {
         int closestNeuron = network.findBMU(weight);

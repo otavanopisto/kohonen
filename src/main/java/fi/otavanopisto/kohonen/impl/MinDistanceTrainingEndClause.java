@@ -1,6 +1,6 @@
 package fi.otavanopisto.kohonen.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import fi.otavanopisto.kohonen.KohonenUtils;
 import fi.otavanopisto.kohonen.Network;
@@ -34,7 +34,7 @@ public class MinDistanceTrainingEndClause implements TrainingEndClause {
   }
 
   public boolean continueTraining(Network network, int epoch,
-      List<double[]> data) {
+      Collection<double[]> data) {
     double previousEpochDistance = distance;
     distances[round] = KohonenUtils.mapDistance(network, data);
     

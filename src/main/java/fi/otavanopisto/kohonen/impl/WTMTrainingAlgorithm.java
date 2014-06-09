@@ -1,6 +1,6 @@
 package fi.otavanopisto.kohonen.impl;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class WTMTrainingAlgorithm implements TrainingAlgorithm {
     this.maxEpochs = maxEpochs;
   }
   
-  public void train(Network network, List<double[]> data) {
+  public void train(Network network, Collection<double[]> data) {
     if (endClause != null)
       trainWithEndClause(network, data);
     else
@@ -50,7 +50,7 @@ public class WTMTrainingAlgorithm implements TrainingAlgorithm {
     return epoch;
   }
   
-  private void trainNormal(Network network, List<double[]> data) {
+  private void trainNormal(Network network, Collection<double[]> data) {
     for (epoch = 0; epoch < maxEpochs; epoch++) {
       for (double[] in : data) {
         int closestNeuron = network.findBMU(in);
@@ -60,7 +60,7 @@ public class WTMTrainingAlgorithm implements TrainingAlgorithm {
     }
   }
 
-  private void trainWithEndClause(Network network, List<double[]> data) {
+  private void trainWithEndClause(Network network, Collection<double[]> data) {
     for (epoch = 0; epoch < maxEpochs; epoch++) {
       for (double[] in : data) {
         int closestNeuron = network.findBMU(in);

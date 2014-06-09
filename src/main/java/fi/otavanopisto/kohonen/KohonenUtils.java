@@ -1,5 +1,6 @@
 package fi.otavanopisto.kohonen;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,14 +17,14 @@ public class KohonenUtils {
    * @param data Data
    * @return Sum of neuron distances to data vectors.
    */
-  public static double mapDistance(Network network, List<double[]> data) {
+  public static double mapDistance(Network network, Collection<double[]> data) {
     double dist = 0;
     
-    for (int i = 0; i < data.size(); i++) {
-      int bmu = network.findBMU(data.get(i));
+    for (double[] vector : data) {
+      int bmu = network.findBMU(vector);
       double[] bmuWeight = network.getNeuronWeight(bmu);
       
-      dist += euclideanDistance(bmuWeight, data.get(i));
+      dist += euclideanDistance(bmuWeight, vector);
     }
     
     return dist;

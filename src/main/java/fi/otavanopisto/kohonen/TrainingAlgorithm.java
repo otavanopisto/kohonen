@@ -1,6 +1,6 @@
 package fi.otavanopisto.kohonen;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Training algorithm for Kohonen SOM.
@@ -9,5 +9,11 @@ import java.util.List;
  */
 public interface TrainingAlgorithm {
 
-  void train(Network network, List<double[]> data);
+  /**
+   * Trains the given Network with given data.
+   * 
+   * @param network network
+   * @param data data
+   */
+  void train(Network network, Collection<double[]> data);
 }
