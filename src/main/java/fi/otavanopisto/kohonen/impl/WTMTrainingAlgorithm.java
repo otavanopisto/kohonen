@@ -91,6 +91,10 @@ public class WTMTrainingAlgorithm implements TrainingAlgorithm {
       Set<Integer> neighbors = neighborhood.keySet();
       
       for (Integer neighbor : neighbors) {
+        // Prevent double training of bmu
+        if (neighbor.intValue() == neuronIndex)
+          continue;
+        
         double[] neuronWeight = network.getNeuronWeight(neighbor);
         int distance = neighborhood.get(neighbor); 
         
