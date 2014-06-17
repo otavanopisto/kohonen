@@ -5,6 +5,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import fi.otavanopisto.kohonen.impl.GaussNeighborhoodModifier;
+import fi.otavanopisto.kohonen.impl.HexagonalTopology;
 import fi.otavanopisto.kohonen.impl.KohonenNetwork;
 import fi.otavanopisto.kohonen.impl.LinearTrainingModifier;
 import fi.otavanopisto.kohonen.impl.MatrixTopology;
@@ -73,20 +74,6 @@ public class TestWTMTraining extends TestCase {
 
     for (int i = 0; i < network.getNeuronCount(); i++)
       assertTrue("Neuron " + i + " didn't learn a thing.", KohonenTestUtils.checkVectorsChanged(startWeights.get(i), network.getNeuronWeight(i)));
-    
-//    int[] bmus = new int[data.size()];
-//    for (int i = 0; i < data.size(); i++) {
-//      bmus[i] = network.findBMU(data.get(i));
-//    }
-//    
-//    for (int i = 0; i < network.getNeuronCount(); i++) {
-//      int count = 0;
-//      for (int j = 0; j < bmus.length; j++) {
-//        if (bmus[j] == i)
-//          count++;
-//      }
-//      assertEquals(1, count);
-//    }
   }
 
   public void testWTMQuadCumulative() throws Exception {
@@ -114,7 +101,33 @@ public class TestWTMTraining extends TestCase {
       assertTrue("Map isn't learning. i = " + i, newDist < dist);
       dist = newDist;
     }
-    
   }
 
+  public void testWTMHexQuadCumulative() throws Exception {
+    double[] maxWeight = new double[] { 1d, 1d };
+    Topology topology = new HexagonalTopology(5, 5);
+    Network network = new KohonenNetwork(topology.getNeuronCount(), maxWeight);
+    
+    int maxEpochs = 20;
+    TrainingModifier trainingModifier = new LinearTrainingModifier(0.2, maxEpochs);
+    NeighborhoodModifier neighborhoodModifier = new GaussNeighborhoodModifier(0.2);
+    WTMTrainingAlgorithm algorithm = new WTMTrainingAlgorithm(topology, trainingModifier, neighborhoodModifier, maxEpochs);
+    
+    List<double[]> data = new ArrayList<double[]>();
+    data.add(new double[] { 0d, 0d });
+    data.add(new double[] { 0d, 1d });
+    data.add(new double[] { 1d, 0d });
+    data.add(new double[] { 1d, 1d });
+    
+    double dist = KohonenTestUtils.getMapDistance(network, data);
+    
+    for (int i = 1; i < 5; i++) {
+      algorithm.train(network, data);
+      double newDist = KohonenTestUtils.getMapDistance(network, data);
+      
+      assertTrue("Map isn't learning. i = " + i, newDist < dist);
+      dist = newDist;
+    }
+  }
+  
 }

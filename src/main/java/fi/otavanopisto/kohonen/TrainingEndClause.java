@@ -1,6 +1,6 @@
 package fi.otavanopisto.kohonen;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Training End Clause for Kohonen Training Algorithms. Implementations may be
@@ -18,5 +18,5 @@ public interface TrainingEndClause {
    * @param data training data
    * @return true, if training should continue, false otherwise
    */
-  boolean continueTraining(Network network, int epoch, List<double[]> data);
+  boolean continueTraining(Network network, int epoch, Collection<double[]> data);
 }
